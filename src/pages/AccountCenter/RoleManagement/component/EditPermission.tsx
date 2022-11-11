@@ -1,19 +1,16 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Button,
   message,
-  Popconfirm,
-  Divider,
   Form,
-  Select,
-  TreeSelect,
-  Image,
   Tree,
   Checkbox,
 } from 'antd';
-import ProForm, { ModalForm, ProFormText, ProFormCheckbox } from '@ant-design/pro-form';
+import ProForm, { ModalForm, } from '@ant-design/pro-form';
 import { setMenuTree } from '../service';
-const EditPermission = props => {
+type EditPermissionitems = {
+
+}
+const EditPermission: React.FC<EditPermissionitems> = props => {
   const FormItem = Form.Item;
   const { TreeNode } = Tree;
   const [form] = Form.useForm();
@@ -25,18 +22,18 @@ const EditPermission = props => {
   const [checkboxboolean, setCheckboxboolean] = useState();
   const [checkboxbutboolean, setCheckboxbutboolean] = useState();
   useEffect(() => {
-    // handBox(menu);
-    // handbutBox(tbutton);
-    // setTree(detail);
-    // endCheckbox(detail);
-    // butendCheckbox(buttondetail);
+    handBox(menu);
+    handbutBox(tbutton);
+    setTree(detail);
+    endCheckbox(detail);
+    butendCheckbox(buttondetail);
 
 
     // setBut(buttondetail);
 
   }, [menu, detail, dad]);
   // 渲染树
-  const menuMap = datas => {
+  const menuMap = (datas: any) => {
     if (datas.length > 1) {
       return datas.map(item => (
         <TreeNode key={item.id} value={item.id} title={item.name}>
@@ -45,9 +42,9 @@ const EditPermission = props => {
       ));
     }
   };
-  const menuChirdenmap = params => {
+  const menuChirdenmap = (params: any) => {
     return params.submenu && params.submenu.length >= 1 ? (
-      params.submenu.map(val => (
+      params.submenu.map((val: any) => (
         <TreeNode previousId={val.previousId} key={val.id} value={val.id} title={val.name}>
           {menuChirdenmap(val)}
         </TreeNode>
@@ -73,9 +70,9 @@ const EditPermission = props => {
     }
   };
   // 选项自定义联动
-  const handCheckedkeys = checkedKeys => {
+  const handCheckedkeys = (checkedKeys: any) => {
     console.log(checkedKeys)
-    const pushnodeId = params => {
+    const pushnodeId = (params: any[]) => {
       params.forEach(item => {
         dad.push(String(item.value));
         if (item.children) {
@@ -83,14 +80,14 @@ const EditPermission = props => {
         }
       });
     };
-    const remove = val => {
+    const remove = (val: string) => {
       for (var i = 0; i < dad.length; i++) {
         if (dad[i] == val) {
           dad.splice(i, 1);
         }
       }
     };
-    const removenodeId = params => {
+    const removenodeId = (params: any[]) => {
       params.forEach(item => {
         remove(String(item.value));
         if (item.children) {
@@ -121,7 +118,7 @@ const EditPermission = props => {
     // }
   };
   // 提取数据所有id
-  const handBox = menudata => {
+  const handBox = (menudata: any[]) => {
     menudata.forEach(item => {
       checkbox.push(String(item.id));
       if (item.button) {
@@ -136,7 +133,7 @@ const EditPermission = props => {
     }
   };
   // 提取数据所有id
-  const handbutBox = menudata => {
+  const handbutBox = (menudata: any[]) => {
     menudata.forEach(item => {
       butcheckbox.push(String(item.id));
     });

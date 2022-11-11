@@ -12,7 +12,7 @@ export async function getMenuTree() {
   });
 }
 // 编辑权限
-export async function setMenuTree(params) {
+export async function setMenuTree(params: { array: any[]; roleId: any; button: any[]; }) {
   return request(`/api/v2/permission/bind`, {
     method: 'POST',
     data: {
@@ -22,7 +22,7 @@ export async function setMenuTree(params) {
 }
 
 // 获取权限
-export async function setUserMenuTree(params) {
+export async function setUserMenuTree(params: any) {
   return request(`/api/system/queryRoleMenuTree`, {
     method: 'POST',
     data: {
@@ -31,7 +31,7 @@ export async function setUserMenuTree(params) {
   });
 }
 // 启用禁用
-export async function updateRole(params) {
+export async function updateRole(params: any) {
   return request(`/api/system/updateRole`, {
     method: 'POST',
     data: {
@@ -40,7 +40,7 @@ export async function updateRole(params) {
   });
 }
 // 新建编辑角色
-export async function editUser(params) {
+export async function editUser(params: any) {
   return request(`/api/v2/permission/role`, {
     method: 'POST',
     data: {
@@ -49,7 +49,7 @@ export async function editUser(params) {
   });
 }
 // 获取菜单
-export async function removeUser(params) {
+export async function removeUser(params: { id: any; }) {
   return request(`/api/v2/permission/delete/${params.id}`, {
     method: 'POST',
   });

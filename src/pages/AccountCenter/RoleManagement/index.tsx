@@ -1,42 +1,46 @@
 import React, { useState, useRef, useEffect } from 'react';
-import ProTable from '@ant-design/pro-table';
+import ProTable, { ActionType, ProColumns } from '@ant-design/pro-table';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Access, useAccess } from 'umi';
-import { connect } from 'dva';
+import { Access, useAccess, connect } from 'umi';
 import { Divider, Popconfirm } from 'antd';
 import NewForm from './component/NewForm';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import EditPermission from './component/EditPermission';
 import { getUserlist, getMenuTree } from './service';
-const Index = props => {
-  const actionRef = useRef();
+type tabitems = {
+  buttonDetail: any;
+  detail: any;
+  id: number;
+}
+const Index: React.FC = props => {
+  const actionRef = useRef<ActionType>();
   const access = useAccess();
   const [menu, setMenu] = useState([]);
   const [tbutton, setTbutton] = useState([]);
   useEffect(() => {
-    // getMenuTree().then(res => {
-    //   setMenu(res.menu);
-    //   setTbutton(res.button);
-    // });
+    getMenuTree().then(res => {
+      setMenu(res.menu);
+      setTbutton(res.button);
+    });
   }, []);
   const getList = () => {
     if (actionRef.current) {
       actionRef.current.reload();
     }
   };
-  const updateRole = data => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'menutree/updateRole',
-      payload: {
-        id: data.id,
-        status: data.status == 0 ? 1 : 0,
-      },
-    }).then(() => {
-      getList();
-    });
-  };
-  const removeUser = id => {
+  // const updateRole = (data: { id: number; status: number; }) => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'menutree/updateRole',
+  //     payload: {
+  //       id: data.id,
+  //       status: data.status == 0 ? 1 : 0,
+  //     },
+  //   }).then(() => {
+  //     getList();
+  //   });
+  // };
+  const removeUser = (id: number) => {
     const { dispatch } = props;
     dispatch({
       type: 'menutree/removeUser',
@@ -45,7 +49,7 @@ const Index = props => {
       getList();
     });
   };
-  const columns = [
+  const columns: ProColumns<tabitems>[] = [
     {
       title: 'ID',
       width: 60,
@@ -77,7 +81,7 @@ const Index = props => {
       align: 'center',
       render: (_, record) => (
         <>
-          {/* <Access accessible={access.a85}> */}
+          <Access accessible={access.a85}>
             <NewForm formdatas={record} and={'edit'} getList={getList} />
             <Divider type="vertical" />
             <EditPermission
@@ -96,7 +100,7 @@ const Index = props => {
             >
               <a>删除角色</a>
             </Popconfirm>
-          {/* </Access> */}
+          </Access>
         </>
       ),
     },
@@ -109,28 +113,24 @@ const Index = props => {
         bordered
         rowKey="id"
         actionRef={actionRef}
-        params={{}}
         pagination={false}
         request={async params => {
-          // const response = await getUserlist();
+          const response = await getUserlist();
           return {
-            // data: response,
-            data: [{
-              id: 1
-            }],
+            data: response,
           };
         }}
-        columns={columns}
+        columns={columns as ProColumns<tabitems>[]}
         toolBarRender={() => [
-          // <Access accessible={access.a85}>
+          <Access accessible={access.a85}>
             <NewForm getList={getList} />
-          // </Access>,
+          </Access>
         ]}
       />
     </PageHeaderWrapper>
   );
 };
 
-export default connect(({ menutree }) => ({
+export default connect(({ menutree }: { menutree: any }) => ({
   menutree,
 }))(Index);

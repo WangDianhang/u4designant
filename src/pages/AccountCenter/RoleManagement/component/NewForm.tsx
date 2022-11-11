@@ -1,10 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Button, message, Popconfirm, Divider, Form, Select, TreeSelect, Image, Input } from 'antd';
-import ProForm, { ModalForm, ProFormText, ProFormCheckbox } from '@ant-design/pro-form';
-import ProTable from '@ant-design/pro-table';
-import { connect } from 'dva';
-import { PlusOutlined, CheckOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-const Newform = props => {
+import React, { useEffect } from 'react';
+import { Button, Form, Input } from 'antd';
+import { ModalForm, ProFormText, } from '@ant-design/pro-form';
+import { connect } from 'umi';
+import { PlusOutlined } from '@ant-design/icons';
+type Newfoemitems = {
+    formdatas: any,
+    and: any,
+    getList: any,
+}
+const Newform: React.FC<Newfoemitems> = props => {
     const { formdatas, and, getList } = props
     const FormItem = Form.Item;
     const [form] = Form.useForm();
@@ -49,7 +53,7 @@ const Newform = props => {
             }}
         >
             <ProFormText
-                width="m"
+                width='md'
                 name="name"
                 label="角色名称"
                 placeholder="请输入角色名称"
@@ -61,6 +65,6 @@ const Newform = props => {
         </ModalForm>
     );
 };
-export default connect(({ menutree }) => ({
+export default connect(({ menutree }: { menutree: any }) => ({
     menutree,
 }))(Newform);

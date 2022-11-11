@@ -20,7 +20,7 @@
   },
   {
     path: '/',
-    redirect: '/accountcenter/rolemanagement',
+    redirect: '/TableList',
   },
   // {
   //   path: '/welcome',
